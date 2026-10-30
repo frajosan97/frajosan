@@ -5,6 +5,7 @@ use App\Http\Controllers\ContactController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ServiceController;
+use App\Http\Controllers\SmsSignupController;
 use App\Http\Controllers\TestimonyController;
 use Illuminate\Support\Facades\Route;
 
@@ -20,6 +21,10 @@ Route::get('/products/{product:slug}', [ProductController::class, 'publicShow'])
 
 Route::get('/services/{service:slug}', [ServiceController::class, 'publicShow'])
     ->name('services.public');
+
+Route::post('/contact/sms-signup', [SmsSignupController::class, 'store'])
+    ->middleware(['throttle:5,1'])
+    ->name('sms-signup.store');
 
 Route::middleware(['auth', 'verified'])
     ->prefix('admin')

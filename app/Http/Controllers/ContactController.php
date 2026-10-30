@@ -6,7 +6,7 @@ use App\Http\Requests\StoreContactRequest;
 use App\Models\ContactMessage;
 use App\Models\Product;
 use App\Models\Service;
-use App\Notifications\Contact\NewContactMessage;
+use App\Notifications\NewContactMessage;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
@@ -124,16 +124,13 @@ class ContactController extends Controller
         try {
             Notification::route('mail', $this->recipients())
                 ->notify(new NewContactMessage($message));
+
         } catch (\Throwable $e) {
-            // Never fail the user-facing flow because email hiccupped.
             Log::warning('Contact notification failed', [
                 'contact_message_id' => $message->id,
                 'error' => $e->getMessage(),
             ]);
         }
-
-        // Optional auto-reply to the sender:
-        // Mail::to($message->email)->queue(new ContactAutoReply($message));
 
         return redirect()
             ->route('contact.show')
