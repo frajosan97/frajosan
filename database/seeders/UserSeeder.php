@@ -13,16 +13,9 @@ class UserSeeder extends Seeder
         $admins = [
             [
                 'name' => 'Super Admin',
-                'email' => 'admin@frajosantech.co.ke',
+                'email' => 'frajosan97@gmail.com',
                 'password' => 'Admin@Frajosan2025!',
                 'role' => 'admin',
-                'is_active' => true,
-            ],
-            [
-                'name' => 'Editor',
-                'email' => 'editor@frajosantech.co.ke',
-                'password' => 'Editor@Frajosan2025!',
-                'role' => 'editor',
                 'is_active' => true,
             ],
         ];
