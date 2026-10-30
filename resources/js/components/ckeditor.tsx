@@ -15,7 +15,7 @@ import {
     BlockQuote,
     Code,
     CodeBlock,
-    HorizontalLine, // ✅ was HorizontalRule
+    HorizontalLine,
     Image,
     ImageToolbar,
     ImageCaption,
@@ -25,8 +25,83 @@ import {
     TableToolbar,
     Undo,
     Alignment,
+    Font,
+    MediaEmbed,
+    Plugin,
+    ButtonView,
+    Command,
+    GeneralHtmlSupport,
 } from "ckeditor5";
 import "ckeditor5/ckeditor5.css";
+
+// ✅ Dynamic Button Command
+class InsertDynamicButtonCommand extends Command {
+    execute() {
+        const editor = this.editor;
+
+        // Prompt user for URL, text, and style
+        const url = window.prompt("Button URL:", "https://example.com/signup");
+        if (!url) return;
+
+        const text = window.prompt("Button text:", "Sign Up");
+        if (!text) return;
+
+        const style = window.prompt(
+            "Button style (primary | secondary | outline | danger):",
+            "primary",
+        );
+        if (!style) return;
+
+        // Map style name to CSS class
+        const styleClassMap: Record<string, string> = {
+            primary: "btn-primary",
+            secondary: "btn-secondary",
+            outline: "btn-outline",
+            danger: "btn-danger",
+        };
+        const styleClass = styleClassMap[style.toLowerCase()] || "btn-primary";
+
+        editor.model.change((writer) => {
+            const html = `<a class="dynamic-button ${styleClass}" href="${url}" target="_blank" rel="noopener noreferrer">${text}</a>`;
+            const viewFragment = editor.data.processor.toView(html);
+            const modelFragment = editor.data.toModel(viewFragment);
+            editor.model.insertContent(modelFragment);
+        });
+    }
+
+    refresh() {
+        this.isEnabled = true;
+    }
+}
+
+// ✅ Dynamic Button Plugin
+class DynamicButtonPlugin extends Plugin {
+    init() {
+        const editor = this.editor;
+
+        const command = new InsertDynamicButtonCommand(editor);
+        editor.commands.add("insertDynamicButton", command);
+
+        editor.ui.componentFactory.add("insertDynamicButton", (locale) => {
+            const button = new ButtonView(locale);
+
+            button.set({
+                label: "Insert Button",
+                withText: true,
+                tooltip: true,
+            });
+
+            button.bind("isEnabled").to(command, "isEnabled");
+
+            button.on("execute", () => {
+                editor.execute("insertDynamicButton");
+                editor.editing.view.focus();
+            });
+
+            return button;
+        });
+    }
+}
 
 interface Props {
     value: string;
@@ -66,7 +141,7 @@ export function RichTextEditor({
                         BlockQuote,
                         Code,
                         CodeBlock,
-                        HorizontalLine, // ✅ was HorizontalRule
+                        HorizontalLine,
                         Image,
                         ImageToolbar,
                         ImageCaption,
@@ -76,6 +151,10 @@ export function RichTextEditor({
                         TableToolbar,
                         Undo,
                         Alignment,
+                        Font,
+                        MediaEmbed,
+                        GeneralHtmlSupport,
+                        DynamicButtonPlugin,
                     ],
                     toolbar: [
                         "undo",
@@ -87,6 +166,11 @@ export function RichTextEditor({
                         "italic",
                         "underline",
                         "strikethrough",
+                        "|",
+                        "fontFamily",
+                        "fontSize",
+                        "fontColor",
+                        "fontBackgroundColor",
                         "|",
                         "link",
                         "bulletedList",
@@ -101,6 +185,9 @@ export function RichTextEditor({
                         "insertTable",
                         "horizontalLine",
                         "imageUpload",
+                        "mediaEmbed",
+                        "|",
+                        "insertDynamicButton",
                     ],
                     placeholder,
                     heading: {
@@ -127,6 +214,38 @@ export function RichTextEditor({
                                 view: "h3",
                                 title: "Heading 3",
                                 class: "ck-heading_heading3",
+                            },
+                        ],
+                    },
+                    fontFamily: {
+                        options: [
+                            "default",
+                            "Arial, Helvetica, sans-serif",
+                            "Courier New, Courier, monospace",
+                            "Georgia, serif",
+                            "Lucida Sans Unicode, Lucida Grande, sans-serif",
+                            "Tahoma, Geneva, sans-serif",
+                            "Times New Roman, Times, serif",
+                            "Trebuchet MS, Helvetica, sans-serif",
+                            "Verdana, Geneva, sans-serif",
+                        ],
+                    },
+                    fontSize: {
+                        options: [9, 11, 13, "default", 17, 19, 21],
+                    },
+                    htmlSupport: {
+                        allow: [
+                            {
+                                name: "a",
+                                classes: [
+                                    "dynamic-button",
+                                    "btn-primary",
+                                    "btn-secondary",
+                                    "btn-outline",
+                                    "btn-danger",
+                                ],
+                                styles: true,
+                                attributes: ["href", "target", "rel"],
                             },
                         ],
                     },

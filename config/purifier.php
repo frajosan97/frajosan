@@ -26,8 +26,9 @@ return [
         'default' => [
             'HTML.Doctype' => 'HTML 4.01 Transitional',
 
-            // ✅ Table tags added
-            'HTML.Allowed' => 'div,b,strong,i,em,u,a[href|title],ul,ol,li,p[style],br,span[style],img[width|height|alt|src],'
+            'HTML.Allowed' => 'div,b,strong,i,em,u,'
+                . 'a[href|title|target|rel|class|style],'
+                . 'ul,ol,li,p[style],br,span[style],img[width|height|alt|src],'
                 . 'table[class|style|border|width|height|cellpadding|cellspacing|summary],'
                 . 'caption,'
                 . 'thead,tbody,tfoot,'
@@ -35,13 +36,27 @@ return [
                 . 'th[class|style|colspan|rowspan|scope|align|valign|width|height|border],'
                 . 'td[class|style|colspan|rowspan|align|valign|width|height|border]',
 
-            // ✅ Table-related CSS added
+            'Attr.AllowedClasses' => [
+                'dynamic-button',
+                'btn-primary',
+                'btn-secondary',
+                'btn-outline',
+                'btn-danger',
+            ],
+
             'CSS.AllowedProperties' => 'font,font-size,font-weight,font-style,font-family,text-decoration,'
                 . 'padding,padding-left,padding-right,padding-top,padding-bottom,'
                 . 'margin,margin-left,margin-right,margin-top,margin-bottom,'
                 . 'color,background-color,text-align,'
                 . 'border,border-collapse,border-spacing,border-color,border-style,border-width,'
-                . 'width,height,vertical-align',
+                . 'width,height,vertical-align,'
+                . 'display,border-radius,line-height,opacity',
+
+            // ✅ Unlock proprietary/modern CSS properties (required for border-radius)
+            'CSS.Proprietary' => true,
+
+            // ✅ Also keep this for "tricky" properties like display
+            'CSS.AllowTricky' => true,
 
             'AutoFormat.AutoParagraph' => true,
             'AutoFormat.RemoveEmpty' => true,
@@ -128,6 +143,9 @@ return [
 
         'custom_attributes' => [
             ['a', 'target', 'Enum#_blank,_self,_target,_top'],
+            ['a', 'rel', 'Text'],
+            ['a', 'class', 'Text'],
+            ['a', 'style', 'Text'],
         ],
 
         'custom_elements' => [

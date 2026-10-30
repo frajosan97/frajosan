@@ -1,6 +1,6 @@
-@import 'tailwindcss';
+@import "tailwindcss";
 
-@import 'tw-animate-css';
+@import "tw-animate-css";
 
 @plugin "@tailwindcss/typography";
 
@@ -11,9 +11,9 @@
 
 @theme {
     --font-sans:
-        'Instrument Sans', ui-sans-serif, system-ui, sans-serif,
-        'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol',
-        'Noto Color Emoji';
+        "Instrument Sans", ui-sans-serif, system-ui, sans-serif,
+        "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol",
+        "Noto Color Emoji";
 
     --radius-lg: var(--radius);
     --radius-md: calc(var(--radius) - 2px);
@@ -30,6 +30,13 @@
 
     --color-primary: var(--primary);
     --color-primary-foreground: var(--primary-foreground);
+
+    /* ✅ Brand tokens (system theme color) */
+    --color-brand: var(--brand);
+    --color-brand-foreground: var(--brand-foreground);
+    --color-brand-light: var(--brand-light);
+    --color-brand-dark: var(--brand-dark);
+    --color-brand-navy: var(--brand-navy);
 
     --color-secondary: var(--secondary);
     --color-secondary-foreground: var(--secondary-foreground);
@@ -70,8 +77,18 @@
     --card-foreground: oklch(0.145 0 0);
     --popover: oklch(1 0 0);
     --popover-foreground: oklch(0.145 0 0);
-    --primary: oklch(0.205 0 0);
-    --primary-foreground: oklch(0.985 0 0);
+
+    /* ✅ System brand color = #0b3fd1 */
+    --brand: oklch(0.437 0.247 265.5); /* #0b3fd1 */
+    --brand-foreground: oklch(0.985 0 0); /* white on brand */
+    --brand-light: oklch(0.65 0.19 262); /* lighter for dark-mode accents */
+    --brand-dark: oklch(0.386 0.219 266.5); /* #0a35b3 */
+    --brand-navy: oklch(0.279 0.169 268.5); /* #0a1170 */
+
+    /* ✅ Primary now follows the brand color */
+    --primary: var(--brand);
+    --primary-foreground: var(--brand-foreground);
+
     --secondary: oklch(0.97 0 0);
     --secondary-foreground: oklch(0.205 0 0);
     --muted: oklch(0.97 0 0);
@@ -79,11 +96,11 @@
     --accent: oklch(0.97 0 0);
     --accent-foreground: oklch(0.205 0 0);
     --destructive: oklch(0.577 0.245 27.325);
-    --destructive-foreground: oklch(0.577 0.245 27.325);
+    --destructive-foreground: oklch(0.985 0 0);
     --border: oklch(0.922 0 0);
     --input: oklch(0.922 0 0);
-    --ring: oklch(0.87 0 0);
-    --chart-1: oklch(0.646 0.222 41.116);
+    --ring: oklch(0.437 0.247 265.5 / 40%); /* brand-tinted ring */
+    --chart-1: oklch(0.437 0.247 265.5); /* brand */
     --chart-2: oklch(0.6 0.118 184.704);
     --chart-3: oklch(0.398 0.07 227.392);
     --chart-4: oklch(0.828 0.189 84.429);
@@ -91,23 +108,32 @@
     --radius: 0.625rem;
     --sidebar: oklch(0.985 0 0);
     --sidebar-foreground: oklch(0.145 0 0);
-    --sidebar-primary: oklch(0.205 0 0);
-    --sidebar-primary-foreground: oklch(0.985 0 0);
+    --sidebar-primary: var(--brand);
+    --sidebar-primary-foreground: var(--brand-foreground);
     --sidebar-accent: oklch(0.97 0 0);
     --sidebar-accent-foreground: oklch(0.205 0 0);
     --sidebar-border: oklch(0.922 0 0);
-    --sidebar-ring: oklch(0.87 0 0);
+    --sidebar-ring: oklch(0.437 0.247 265.5 / 40%);
 }
 
 .dark {
     --background: oklch(0.145 0 0);
     --foreground: oklch(0.985 0 0);
-    --card: oklch(0.145 0 0);
+    --card: oklch(0.205 0 0);
     --card-foreground: oklch(0.985 0 0);
-    --popover: oklch(0.145 0 0);
+    --popover: oklch(0.205 0 0);
     --popover-foreground: oklch(0.985 0 0);
-    --primary: oklch(0.985 0 0);
-    --primary-foreground: oklch(0.205 0 0);
+
+    /* ✅ Brand stays recognizable in dark mode but slightly brightened for contrast */
+    --brand: oklch(0.55 0.23 264); /* lifted #0b3fd1 for dark bg */
+    --brand-foreground: oklch(0.985 0 0);
+    --brand-light: oklch(0.72 0.16 262);
+    --brand-dark: oklch(0.437 0.247 265.5);
+    --brand-navy: oklch(0.279 0.169 268.5);
+
+    --primary: var(--brand);
+    --primary-foreground: var(--brand-foreground);
+
     --secondary: oklch(0.269 0 0);
     --secondary-foreground: oklch(0.985 0 0);
     --muted: oklch(0.269 0 0);
@@ -115,23 +141,23 @@
     --accent: oklch(0.269 0 0);
     --accent-foreground: oklch(0.985 0 0);
     --destructive: oklch(0.396 0.141 25.723);
-    --destructive-foreground: oklch(0.637 0.237 25.331);
-    --border: oklch(0.269 0 0);
-    --input: oklch(0.269 0 0);
-    --ring: oklch(0.439 0 0);
-    --chart-1: oklch(0.488 0.243 264.376);
+    --destructive-foreground: oklch(0.985 0 0);
+    --border: oklch(1 0 0 / 10%);
+    --input: oklch(1 0 0 / 15%);
+    --ring: oklch(0.55 0.23 264 / 55%);
+    --chart-1: oklch(0.55 0.23 264);
     --chart-2: oklch(0.696 0.17 162.48);
     --chart-3: oklch(0.769 0.188 70.08);
     --chart-4: oklch(0.627 0.265 303.9);
     --chart-5: oklch(0.645 0.246 16.439);
     --sidebar: oklch(0.205 0 0);
     --sidebar-foreground: oklch(0.985 0 0);
-    --sidebar-primary: oklch(0.985 0 0);
-    --sidebar-primary-foreground: oklch(0.985 0 0);
+    --sidebar-primary: var(--brand);
+    --sidebar-primary-foreground: var(--brand-foreground);
     --sidebar-accent: oklch(0.269 0 0);
     --sidebar-accent-foreground: oklch(0.985 0 0);
-    --sidebar-border: oklch(0.269 0 0);
-    --sidebar-ring: oklch(0.439 0 0);
+    --sidebar-border: oklch(1 0 0 / 10%);
+    --sidebar-ring: oklch(0.55 0.23 264 / 55%);
 }
 
 @layer base {
@@ -141,5 +167,90 @@
 
     body {
         @apply bg-background text-foreground;
+    }
+}
+
+/* ============================================================
+   Dynamic Button styles (CKEditor custom button plugin)
+   ============================================================ */
+@layer components {
+    .dynamic-button {
+        display: inline-block;
+        padding: 0.625rem 1.25rem;
+        font-weight: 600;
+        font-size: 0.875rem;
+        line-height: 1.25rem;
+        border-radius: var(--radius-md);
+        text-decoration: none !important;
+        cursor: pointer;
+        transition:
+            background-color 0.2s ease,
+            color 0.2s ease,
+            border-color 0.2s ease,
+            opacity 0.2s ease;
+        border: 2px solid transparent;
+        text-align: center;
+    }
+
+    /* Primary */
+    .dynamic-button.btn-primary {
+        background-color: var(--brand);
+        color: var(--brand-foreground) !important;
+        border-color: var(--brand);
+    }
+    .dynamic-button.btn-primary:hover {
+        background-color: var(--brand-dark);
+        border-color: var(--brand-dark);
+    }
+
+    /* Secondary */
+    .dynamic-button.btn-secondary {
+        background-color: var(--secondary);
+        color: var(--secondary-foreground) !important;
+        border-color: var(--secondary);
+    }
+    .dynamic-button.btn-secondary:hover {
+        opacity: 0.9;
+    }
+
+    /* Outline */
+    .dynamic-button.btn-outline {
+        background-color: transparent;
+        color: var(--brand) !important;
+        border-color: var(--brand);
+    }
+    .dynamic-button.btn-outline:hover {
+        background-color: var(--brand);
+        color: var(--brand-foreground) !important;
+    }
+
+    /* Danger */
+    .dynamic-button.btn-danger {
+        background-color: var(--destructive);
+        color: var(--destructive-foreground) !important;
+        border-color: var(--destructive);
+    }
+    .dynamic-button.btn-danger:hover {
+        opacity: 0.9;
+    }
+
+    /* Editor-only preview adjustments */
+    .ck-content .dynamic-button {
+        display: inline-block;
+        padding: 0.625rem 1.25rem;
+        font-weight: 600;
+        border-radius: var(--radius-md);
+        text-decoration: none !important;
+    }
+
+    /* Ensure button text stays readable inside editor in dark mode */
+    .dark .ck-content .dynamic-button.btn-primary,
+    .dark .ck-content .dynamic-button.btn-secondary,
+    .dark .ck-content .dynamic-button.btn-danger {
+        color: var(--primary-foreground) !important;
+    }
+    .dark .ck-content .dynamic-button.btn-outline {
+        color: var(--brand-light) !important;
+        border-color: var(--brand-light);
     }
 }
