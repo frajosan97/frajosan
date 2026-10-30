@@ -1,3 +1,4 @@
+import { Link } from "@inertiajs/react";
 import {
     Mail,
     MapPin,
@@ -11,12 +12,28 @@ import {
 import {
     BRAND,
     CONTACT,
-    SERVICE_LINKS,
+    FOOTER_COPY,
+    SOCIALS,
 } from "@/components/constants/constants";
+import { useFooterSolutions } from "@/hooks/use-footer-links";
+import { useSiteNav } from "@/hooks/use-site-nav";
 import AppLogo from "@/components/app-logo";
 import Wrapper from "./wrapper";
 
+const SOCIAL_ICONS: Record<
+    string,
+    React.ComponentType<{ className?: string }>
+> = {
+    Facebook,
+    Twitter,
+    Linkedin,
+    Instagram,
+};
+
 export default function AppFooter() {
+    const solutions = useFooterSolutions();
+    const nav = useSiteNav();
+
     return (
         <footer
             id="contact"
@@ -36,39 +53,38 @@ export default function AppFooter() {
                     <div>
                         <AppLogo imgClassName="h-20 w-auto" />
                         <p className="mt-6 max-w-[250px] text-[15px] leading-relaxed">
-                            {BRAND} builds school, finance, insurance and
-                            hospital systems, plus bulk SMS, networking and
-                            hosting — engineered in Kitui for Kenyan
-                            institutions.
+                            {BRAND} {FOOTER_COPY.brandBlurb}
                         </p>
                         <div className="mt-8 flex gap-3">
-                            {[Facebook, Twitter, Linkedin, Instagram].map(
-                                (Icon, i) => (
+                            {SOCIALS.map(({ icon, href, label }) => {
+                                const Icon = SOCIAL_ICONS[icon];
+                                return (
                                     <a
-                                        key={i}
-                                        href="#"
+                                        key={label}
+                                        href={href}
+                                        aria-label={label}
                                         className="grid h-10 w-10 place-items-center rounded-full bg-white text-[#0a1170] shadow-sm transition hover:bg-[#0b3fd1] hover:text-white"
                                     >
                                         <Icon className="h-4 w-4" />
                                     </a>
-                                ),
-                            )}
+                                );
+                            })}
                         </div>
                     </div>
 
                     <div>
                         <h4 className="mb-6 text-[22px] font-bold text-[#0a1170]">
-                            Our Solutions
+                            {FOOTER_COPY.solutionsTitle}
                         </h4>
                         <ul className="space-y-4">
-                            {SERVICE_LINKS.map((l) => (
-                                <li key={l}>
-                                    <a
-                                        href="#"
+                            {solutions.map((l) => (
+                                <li key={`${l.type}-${l.href}`}>
+                                    <Link
+                                        href={l.href}
                                         className="transition hover:text-[#0b3fd1]"
                                     >
-                                        {l}
-                                    </a>
+                                        {l.label}
+                                    </Link>
                                 </li>
                             ))}
                         </ul>
@@ -76,7 +92,7 @@ export default function AppFooter() {
 
                     <div>
                         <h4 className="mb-6 text-[22px] font-bold text-[#0a1170]">
-                            Contact Info
+                            {FOOTER_COPY.contactTitle}
                         </h4>
                         <ul className="space-y-5">
                             <li className="flex gap-4">
@@ -111,12 +127,10 @@ export default function AppFooter() {
 
                     <div>
                         <h4 className="mb-6 text-[22px] font-bold text-[#0a1170]">
-                            Newsletter
+                            {FOOTER_COPY.newsletterTitle}
                         </h4>
                         <p className="mb-6 leading-relaxed">
-                            Get product updates, new releases and ICT tips for
-                            schools, hospitals and finance teams — straight to
-                            your inbox.
+                            {FOOTER_COPY.newsletterBlurb}
                         </p>
                         <form className="relative flex items-center">
                             <input
@@ -141,19 +155,13 @@ export default function AppFooter() {
                         reserved.
                     </p>
                     <ul className="mt-4 flex gap-6 sm:mt-0">
-                        {[
-                            "Home",
-                            "About",
-                            "Products",
-                            "Services",
-                            "Contact",
-                        ].map((l) => (
-                            <li key={l}>
+                        {nav.map((m) => (
+                            <li key={m.label}>
                                 <a
-                                    href="#"
+                                    href={m.href}
                                     className="transition hover:text-[#0b3fd1]"
                                 >
-                                    {l}
+                                    {m.label}
                                 </a>
                             </li>
                         ))}

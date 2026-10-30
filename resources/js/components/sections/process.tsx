@@ -1,4 +1,5 @@
 import { motion } from "framer-motion";
+import { Link } from "@inertiajs/react";
 import { fadeUp, stagger } from "@/lib/motion";
 import { STEPS } from "@/components/constants/constants";
 import Wrapper from "@/layouts/app/wrapper";
@@ -73,13 +74,13 @@ export default function ProcessSection() {
                             agreed with you upfront.
                         </p>
 
-                        <a
-                            href="#contact"
+                        <Link
+                            href="/contact#message-section"
                             className="group mt-9 inline-flex items-center gap-2 rounded-full bg-white px-7 py-3.5 text-[15px] font-semibold text-[#0b3fd1] shadow-lg transition hover:bg-[#4a8dff] hover:text-white"
                         >
                             Start a Project
                             <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
-                        </a>
+                        </Link>
 
                         <p className="mt-6 text-[13px] leading-relaxed text-white/60">
                             Typical delivery: 4–8 weeks · Fixed scope · Weekly

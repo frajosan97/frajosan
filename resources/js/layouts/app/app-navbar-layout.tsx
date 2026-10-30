@@ -9,98 +9,24 @@ import {
     Menu,
     X,
     ChevronDown,
-    Building2,
-    History,
-    Briefcase,
-    Handshake,
-    BarChart3,
-    Fingerprint,
-    Wallet,
-    Landmark,
-    ShieldCheck,
-    LineChart,
-    Dices,
-    Stethoscope,
-    MessageSquare,
-    Network,
-    Globe,
 } from "lucide-react";
-import { dashboard } from "@/routes";
 import AppLogo from "@/components/app-logo";
 import Wrapper from "./wrapper";
+import { dashboard } from "@/routes/admin";
+import { useSiteNav } from "@/hooks/use-site-nav";
 
 type Props = { scrolled: boolean; authUser: unknown };
 
-type NavItem = {
-    label: string;
-    href: string;
-    children?: {
-        label: string;
-        href: string;
-        icon: React.ComponentType<{ className?: string }>;
-    }[];
-};
-
-const NAV: NavItem[] = [
-    { label: "Home", href: "/" },
-    {
-        label: "About Us",
-        href: "#about",
-        children: [
-            { label: "Company Profile", href: "#profile", icon: Building2 },
-            { label: "Our Journey", href: "#journey", icon: History },
-            { label: "Careers", href: "#careers", icon: Briefcase },
-            { label: "Business Partners", href: "#partners", icon: Handshake },
-        ],
-    },
-    {
-        label: "Products",
-        href: "#services",
-        children: [
-            {
-                label: "EduPulse Analytics",
-                href: "#edupulse-analytics",
-                icon: BarChart3,
-            },
-            {
-                label: "EduPulse Finance",
-                href: "#edupulse-finance",
-                icon: Wallet,
-            },
-            {
-                label: "Edupulse Biometric Attendance",
-                href: "#edupulse-attendance",
-                icon: Fingerprint,
-            },
-            {
-                label: "Insurance Systems",
-                href: "#insurance",
-                icon: ShieldCheck,
-            },
-            { label: "Trading App", href: "#trading", icon: LineChart },
-            { label: "Betting & Casino", href: "#betting", icon: Dices },
-            { label: "Hospital Systems", href: "#hospital", icon: Stethoscope },
-        ],
-    },
-    {
-        label: "Services",
-        href: "#services",
-        children: [
-            { label: "Bulk SMS", href: "#bulk-sms", icon: MessageSquare },
-            { label: "Networking", href: "#networking", icon: Network },
-            { label: "Domains & Hosting", href: "#hosting", icon: Globe },
-        ],
-    },
-    { label: "Contact", href: "/contact" },
-];
-
 export default function AppNavbar({ scrolled, authUser }: Props) {
+    const NAV = useSiteNav(); // ← the only structural change
     const [open, setOpen] = useState(false);
     const [openMobile, setOpenMobile] = useState<string | null>(null);
 
     return (
         <header
-            className={`z-50 bg-[#0b3fd1] text-white shadow-md transition-all duration-300 ${scrolled ? "fixed inset-x-0 top-0" : "relative"}`}
+            className={`z-50 bg-[#0b3fd1] text-white shadow-md transition-all duration-300 ${
+                scrolled ? "fixed inset-x-0 top-0" : "relative"
+            }`}
         >
             <Wrapper className="flex h-[72px] items-center justify-between">
                 <div className="md:hidden">
@@ -128,7 +54,6 @@ export default function AppNavbar({ scrolled, authUser }: Props) {
                                 </a>
 
                                 {hasDropdown && (
-                                    /* Wrapper starts exactly at nav bottom (top-full) with no gap */
                                     <div className="invisible absolute left-0 top-full z-50 opacity-0 transition-opacity duration-150 group-hover:visible group-hover:opacity-100">
                                         <div className="min-w-[260px] rounded-none bg-white py-2 text-[#0a1170] shadow-xl ring-1 ring-black/5">
                                             {m.children!.map((item) => {
@@ -223,7 +148,11 @@ export default function AppNavbar({ scrolled, authUser }: Props) {
                                                 >
                                                     {m.label}
                                                     <ChevronDown
-                                                        className={`h-4 w-4 transition-transform duration-200 ${isOpen ? "rotate-180" : ""}`}
+                                                        className={`h-4 w-4 transition-transform duration-200 ${
+                                                            isOpen
+                                                                ? "rotate-180"
+                                                                : ""
+                                                        }`}
                                                     />
                                                 </button>
                                                 <AnimatePresence

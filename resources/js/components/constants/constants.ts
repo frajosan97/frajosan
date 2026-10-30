@@ -1,3 +1,5 @@
+// resources/js/constants/constants.ts
+
 export const BRAND = 'Frajosan Technologies Ltd';
 
 export const CONTACT = {
@@ -17,41 +19,14 @@ export const IMG = {
     t3: 'https://i.pravatar.cc/150?img=33',
 } as const;
 
-export const MENU = [
-    { label: 'Home', href: '#home', hasCaret: true },
-    { label: 'About', href: '#about' },
-    { label: 'Products', href: '#services', hasCaret: true },
-    { label: 'Services', href: '#process', hasCaret: true },
-    { label: 'Blog', href: '#blog', hasCaret: true },
-    { label: 'Contact', href: '#contact' },
-];
+export const LOREM =
+    'At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque corrupti quos dolores.';
 
 export const SKILLS = [
     { label: 'EduPulse Systems', value: 95 },
     { label: 'Financial & Insurance Systems', value: 90 },
     { label: 'Hospital Systems', value: 85 },
     { label: 'Networking & Hosting', value: 88 },
-];
-
-export const LOREM = 'At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque corrupti quos dolores.';
-
-// Core software products (EduPulse systems grouped once, not repeated)
-export const SERVICES = [
-    { icon: 'BarChart3', title: 'EduPulse Analytics' },
-    { icon: 'Fingerprint', title: 'Biometric Attendance' },
-    { icon: 'Wallet', title: 'EduPulse Finance' },
-    { icon: 'Landmark', title: 'Financial Systems' },
-    { icon: 'ShieldCheck', title: 'Insurance Systems' },
-    { icon: 'LineChart', title: 'Trading App' },
-    { icon: 'Dices', title: 'Betting & Casino' },
-    { icon: 'Stethoscope', title: 'Hospital Systems' },
-];
-
-// Supporting / add-on services
-export const OTHER_SERVICES = [
-    { icon: 'MessageSquare', title: 'Bulk SMS' },
-    { icon: 'Network', title: 'Networking' },
-    { icon: 'Globe', title: 'Domains & Hosting' },
 ];
 
 export const STATS = [
@@ -67,87 +42,51 @@ export const STEPS = [
     { n: 4, title: 'Deliver' },
 ];
 
-export const TESTIMONIALS = [
-    {
-        img: IMG.t1,
-        name: 'Mr. Peter Mutua',
-        role: 'Principal, Kitui Boys High School',
-        quote:
-            'Frajosan\'s EduPulse system replaced three spreadsheets and two registers. Fee reconciliation that used to take a week now closes in an afternoon.',
-    },
-    {
-        img: IMG.t2,
-        name: 'Ms. Grace Wanjiku',
-        role: 'Finance Manager, Kitui Teachers SACCO',
-        quote:
-            'Their financial system handles our M-Pesa, cash, and loan ledgers in one place. Audit season used to be painful — now it\'s a report we generate.',
-    },
-    {
-        img: IMG.t3,
-        name: 'Dr. Samuel Kilonzo',
-        role: 'Medical Superintendent, Kitui County Hospital',
-        quote:
-            'Patient records, billing, and pharmacy stock are now linked. Our staff training took one day, and support has been quick any time we\'ve needed it.',
-    },
-];
+// Static menu shown before the dynamic Products/Services items.
+// Anything DB-backed is injected at render time in `useSiteNav`.
+export const STATIC_MENU = [
+    { label: 'Home', href: '/' },
+    { label: 'About', href: '#about', hasCaret: true },
+    { label: 'Contact', href: '/contact' },
+] as const;
 
-export const BRANDS = [
-    { name: 'Slab', sub: 'Technology' },
-    { name: 'CodeSea', sub: 'IT Company' },
-    { name: 'Orange', sub: 'Core Technology' },
-    { name: 'Technub', sub: 'Technology' },
-    { name: 'Greenlab', sub: 'Technology' },
-];
+// String → icon key mapping lives here so both navbar and page
+// sections pull from one registry.
+export const ICON_KEYS = [
+    'BarChart3',
+    'Fingerprint',
+    'Wallet',
+    'Landmark',
+    'ShieldCheck',
+    'LineChart',
+    'Dices',
+    'Stethoscope',
+    'MessageSquare',
+    'Network',
+    'Globe',
+    'Building2',
+    'History',
+    'Briefcase',
+    'Handshake',
+] as const;
 
-export const SERVICE_LINKS = [
-    'EduPulse Systems',
-    'Financial Systems',
-    'Insurance Systems',
-    'Hospital Systems',
-    'Bulk SMS',
-    'Networking',
-    'Domains & Hosting',
-];
+export type IconKey = (typeof ICON_KEYS)[number];
 
-export const PRODUCTS = [
-    {
-        icon: 'BarChart3',
-        title: 'EduPulse Analytics',
-        tagline: 'Real-time dashboards on enrolment, performance and fee collection.',
-    },
-    {
-        icon: 'Wallet',
-        title: 'EduPulse Finance',
-        tagline: 'Fee billing, M-Pesa reconciliation, and payment reminders in one place.',
-    },
-    {
-        icon: 'Fingerprint',
-        title: 'Biometric Attendance',
-        tagline: 'Fingerprint & card check-in for students and staff — tamper-proof.',
-    },
-    {
-        icon: 'Landmark',
-        title: 'Financial Systems',
-        tagline: 'Core banking, SACCO, and microfinance platforms with audit trails.',
-    },
-    {
-        icon: 'ShieldCheck',
-        title: 'Insurance Systems',
-        tagline: 'Policy management, claims workflow, and agent commissions.',
-    },
-    {
-        icon: 'LineChart',
-        title: 'Trading App',
-        tagline: 'Multi-asset trading with live pricing, charts, and wallet top-ups.',
-    },
-    {
-        icon: 'Dices',
-        title: 'Betting & Casino',
-        tagline: 'Licensed sportsbook, casino, and bonus engine with fraud controls.',
-    },
-    {
-        icon: 'Stethoscope',
-        title: 'Hospital Systems',
-        tagline: 'Patient records, appointments, billing, and pharmacy stock.',
-    },
-];
+export const SOCIALS = [
+    { label: 'Facebook', href: '#', icon: 'Facebook' },
+    { label: 'Twitter', href: '#', icon: 'Twitter' },
+    { label: 'LinkedIn', href: '#', icon: 'Linkedin' },
+    { label: 'Instagram', href: '#', icon: 'Instagram' },
+] as const;
+
+export const FOOTER_COPY = {
+    solutionsTitle: 'Our Solutions',
+    contactTitle: 'Contact Info',
+    newsletterTitle: 'Newsletter',
+    newsletterBlurb:
+        'Get product updates, new releases and ICT tips for schools, hospitals and finance teams — straight to your inbox.',
+    brandBlurb:
+        'builds school, finance, insurance and hospital systems, plus bulk SMS, networking and hosting — engineered in Kitui for Kenyan institutions.',
+} as const;
+
+export const FOOTER_SOLUTIONS_LIMIT = 7;

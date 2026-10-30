@@ -1,8 +1,18 @@
+import { useState } from "react";
 import Wrapper from "@/layouts/app/wrapper";
 import { motion } from "framer-motion";
-import { MessageSquare, Check, ArrowRight, Zap, Globe2, Headphones } from "lucide-react";
+import {
+    MessageSquare,
+    Check,
+    ArrowRight,
+    Zap,
+    Globe2,
+    Headphones,
+    X,
+} from "lucide-react";
 import { fadeUp, stagger } from "@/lib/motion";
 import { CONTACT, STATS } from "../constants/constants";
+import { SmsSignupForm } from "@/components/sms-signup-form";
 
 const SMS_FEATURES = [
     "Sender ID (your school, church, or business name)",
@@ -12,6 +22,8 @@ const SMS_FEATURES = [
 ];
 
 export default function CtaStatsSection() {
+    const [signupOpen, setSignupOpen] = useState(false);
+
     return (
         <section className="relative overflow-hidden bg-[#f8f9fa] pb-32">
             {/* ─── SMS CTA BLOCK ─── */}
@@ -20,7 +32,8 @@ export default function CtaStatsSection() {
                 <div
                     className="absolute inset-0 opacity-[0.08] pointer-events-none"
                     style={{
-                        backgroundImage: "radial-gradient(#fff 1.5px, transparent 1.5px)",
+                        backgroundImage:
+                            "radial-gradient(#fff 1.5px, transparent 1.5px)",
                         backgroundSize: "28px 28px",
                     }}
                 />
@@ -53,12 +66,16 @@ export default function CtaStatsSection() {
                             >
                                 Reach everyone in{" "}
                                 <span className="relative inline-block">
-                                    <span className="relative z-10">seconds</span>
+                                    <span className="relative z-10">
+                                        seconds
+                                    </span>
                                     <span className="absolute inset-x-0 bottom-1 h-3 bg-[#4a8dff]/40 rounded" />
                                 </span>
                                 <br />
                                 for just{" "}
-                                <span className="text-[#7ea3ff]">50 cents</span>{" "}
+                                <span className="text-[#7ea3ff]">
+                                    50 cents
+                                </span>{" "}
                                 per SMS.
                             </motion.h2>
 
@@ -66,9 +83,9 @@ export default function CtaStatsSection() {
                                 variants={fadeUp}
                                 className="mt-6 max-w-lg text-[16px] sm:text-[18px] leading-relaxed text-white/85"
                             >
-                                Fee reminders, exam results, appointment
-                                alerts, church announcements — send thousands
-                                of messages in one click. Transparent per-SMS
+                                Fee reminders, exam results, appointment alerts,
+                                church announcements — send thousands of
+                                messages in one click. Transparent per-SMS
                                 pricing, no monthly retainer.
                             </motion.p>
 
@@ -93,15 +110,16 @@ export default function CtaStatsSection() {
                                 variants={fadeUp}
                                 className="mt-10 flex flex-wrap items-center gap-4"
                             >
-                                <a
-                                    href={`tel:${CONTACT.phones[0]}`}
+                                <button
+                                    type="button"
+                                    onClick={() => setSignupOpen(true)}
                                     className="group inline-flex items-center gap-2 rounded-full bg-white px-7 py-3.5 text-[15px] font-semibold text-[#0b3fd1] shadow-lg transition hover:bg-[#4a8dff] hover:text-white"
                                 >
                                     Start Sending
                                     <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
-                                </a>
+                                </button>
                                 <a
-                                    href="#contact"
+                                    href="/contact#contacts-section"
                                     className="inline-flex items-center gap-2 rounded-full border border-white/30 px-7 py-3.5 text-[15px] font-semibold text-white transition hover:bg-white/10"
                                 >
                                     Talk to Sales
@@ -147,9 +165,18 @@ export default function CtaStatsSection() {
 
                                 <ul className="space-y-3.5">
                                     {[
-                                        { icon: Globe2, text: "Works on all Kenyan networks" },
-                                        { icon: Zap, text: "Delivery in under 60 seconds" },
-                                        { icon: Headphones, text: "Free onboarding & support" },
+                                        {
+                                            icon: Globe2,
+                                            text: "Works on all Kenyan networks",
+                                        },
+                                        {
+                                            icon: Zap,
+                                            text: "Delivery in under 60 seconds",
+                                        },
+                                        {
+                                            icon: Headphones,
+                                            text: "Free onboarding & support",
+                                        },
                                     ].map(({ icon: Icon, text }) => (
                                         <li
                                             key={text}
@@ -163,12 +190,13 @@ export default function CtaStatsSection() {
                                     ))}
                                 </ul>
 
-                                <a
-                                    href={`tel:${CONTACT.phones[0]}`}
+                                <button
+                                    type="button"
+                                    onClick={() => setSignupOpen(true)}
                                     className="mt-8 flex w-full items-center justify-center gap-2 rounded-full bg-[#0b3fd1] py-4 text-[15px] font-semibold text-white transition hover:bg-[#0a1170]"
                                 >
                                     Create Free Account
-                                </a>
+                                </button>
                                 <p className="mt-4 text-center text-[12px] text-slate-400">
                                     {CONTACT.phones[0]} · {CONTACT.email}
                                 </p>
@@ -201,6 +229,33 @@ export default function CtaStatsSection() {
                     ))}
                 </div>
             </Wrapper>
+
+            {/* ─── SIGNUP MODAL ─── */}
+            {signupOpen && (
+                <div
+                    className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 p-4 backdrop-blur-sm"
+                    role="dialog"
+                    aria-modal="true"
+                    aria-labelledby="sms-signup-title"
+                    onClick={() => setSignupOpen(false)}
+                >
+                    <div
+                        className="relative w-full max-w-lg max-h-[90vh] overflow-y-auto rounded-2xl bg-white shadow-2xl"
+                        onClick={(e) => e.stopPropagation()}
+                    >
+                        <button
+                            type="button"
+                            onClick={() => setSignupOpen(false)}
+                            aria-label="Close"
+                            className="absolute right-4 top-4 z-10 rounded-full p-1.5 text-slate-500 transition hover:bg-slate-100 hover:text-slate-900"
+                        >
+                            <X className="h-5 w-5" />
+                        </button>
+
+                        <SmsSignupForm onSuccess={() => setSignupOpen(false)} />
+                    </div>
+                </div>
+            )}
         </section>
     );
 }
